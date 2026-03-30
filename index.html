@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Recarga Universal</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    text-align: center;
+    padding: 30px;
+  }
+  .card {
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 15px;
+    max-width: 420px;
+    margin: auto;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  }
+  input, select {
+    width: 90%;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    border: none;
+  }
+  button {
+    background: #22c55e;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 95%;
+  }
+  button:disabled {
+    background: gray;
+  }
+  .status {
+    margin-top: 15px;
+    font-weight: bold;
+  }
+  .terms {
+    margin-top: 25px;
+    font-size: 12px;
+    color: #cbd5f5;
+    text-align: left;
+    background: #0b1220;
+    padding: 15px;
+    border-radius: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>📶 Recarga Universal (Demo)</h2>
+
+  <select id="compania">
+    <option>Telcel</option>
+    <option>AT&T</option>
+    <option>Movistar</option>
+    <option>T-Mobile</option>
+    <option>Verizon</option>
+    <option>Claro</option>
+    <option>Vodafone</option>
+    <option>Orange</option>
+    <option>Digicel</option>
+    <option>Metro by T-Mobile</option>
+    <option>Boost Mobile</option>
+    <option>Cricket Wireless</option>
+  </select>
+
+  <input type="text" id="numero" placeholder="Ingresa número">
+
+  <p>🎁 10 GB por 24 horas</p>
+
+  <button onclick="recargar()" id="btn">Recargar ahora</button>
+
+  <div class="status" id="status">Disponible</div>
+
+  <div class="terms">
+    <strong>📄 Términos y Condiciones (Simulación)</strong><br><br>
+    • Este sitio es únicamente un simulador con fines educativos y de demostración.<br>
+    • No realiza recargas reales ni está conectado a ninguna compañía telefónica.<br>
+    • Los datos ingresados no se envían a ningún servidor, todo ocurre localmente en el navegador.<br>
+    • La “recarga de 10 GB” es ficticia y solo representa una animación visual.<br>
+    • El uso está limitado a una interacción cada 24 horas dentro del mismo dispositivo.<br>
+    • Este simulador no garantiza ningún servicio real de telecomunicaciones.<br>
+    • Al usar esta página, aceptas que es solo una experiencia de prueba/interfaz.<br>
+  </div>
+
+</div>
+
+<script>
+function recargar() {
+  const numero = document.getElementById("numero").value;
+  const compania = document.getElementById("compania").value;
+  const ahora = Date.now();
+  const ultima = localStorage.getItem("ultimaRecarga");
+
+  if (!numero || numero.length < 8) {
+    alert("⚠️ Ingresa un número válido");
+    return;
+  }
+
+  if (ultima && ahora - ultima < 86400000) {
+    alert("⏳ Ya hiciste una recarga hoy");
+    return;
+  }
+
+  document.getElementById("btn").disabled = true;
+  document.getElementById("status").innerText = "📡 Conectando con " + compania + "...";
+
+  setTimeout(() => {
+    document.getElementById("status").innerText = "🔄 Procesando número " + numero + "...";
+  }, 1500);
+
+  setTimeout(() => {
+    document.getElementById("status").innerText = "✅ 10 GB activados en " + numero;
+    localStorage.setItem("ultimaRecarga", ahora);
+  }, 3500);
+}
+</script>
+
+</body>
+</html>
